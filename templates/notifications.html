@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% macro row(id, prefix,asn) %}
+    <tr>
+        <input type="hidden" name="id[]" value="{{ id }}"/>
+        <td><input name="prefix[]" value="{{ prefix }}"/></td>
+        <td><input name="asn[]" value="{{ asn }}"/></td>
+        <td><a class="search" href="{{ url_for('search') }}?cidr={{ prefix }}&asn={{ asn }}"><i class="fas fa-search"></i></a></td>
+        <td><a href="#" class="delete-row"><i class="fas fa-trash"></i></a></td>
+    </tr>
+{% endmacro %}
+{% block content %}
+
+    <h2>My notifications</h2>
+
+    {% if not user.email %}
+        <div class="alert alert-warning">Login first to be notified via e-mail</div>
+    {% endif %}
+
+    <form method="post">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>CIDR</th>
+                <th>ASN</th>
+                <th>Search</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for r in data %}
+                {{ row(r.id,r.prefix or "",r.asn or "") }}
+            {% endfor %}
+            <tr>
+                <td colspan="4"><a href="#" class="add-row"><i class="fas fa-plus"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+{#        E-mail: <input name="email" type="email" value="{{ user.email or "" }}"/>#}
+        <input type="submit" value="Confirm"/>
+    </form>
+
+    <div class="html-template add-row">
+        <table>
+            {{ row("","","") }}
+        </table>
+    </div>
+
+    <script>
+
+        // deleting a row
+        $(".delete-row").click(function () {
+            $(this).closest("tr").hide().find("[name!='id[]']").each(function () {
+                $(this).val("");
+            });
+            block();
+        })
+
+        //adding a row
+        $("a.add-row").click(function () {
+            $(this).closest("tr").before($("div.add-row tr").clone());
+            block();
+        });
+
+        // do not let user go away with unconfirmed changes
+        function block() {
+            window.onbeforeunload = function () {
+                return "You have made changes on this page that you have not yet confirmed. If you navigate away from this page you will lose your unsaved changes";
+            }
+        }
+
+        $('form').submit(function () {
+            window.onbeforeunload = null;
+        });
+
+        // search button updated on change
+        $("[name='prefix[]'],[name='asn[]']").change(function(){
+            let $tr = $(this).closest("tr");
+            let $search = $tr.find(".search");
+            let prefix = $tr.find("[name='prefix[]']").val();
+            let asn = $tr.find("[name='asn[]']").val();
+            $search.attr("href", `{{ url_for('search') }}?cidr=${prefix}&asn=${asn}`);
+            console.log('81: $search(): ', $search);
+        });
+    </script>
+{% endblock %}

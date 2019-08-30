@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="alert alert-warning">
+        This is an <b>early prototype</b> of the RPKI Sentry software. We publish the it as it is, along with the current data and
+        results without any guarantees of data quality, accuracy or completeness. Our intention is to speed up development,
+        debugging and allow community to participate and provide early feedback. You may use the software, data, results or any
+        other artifacts solely at your own risk.
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message[1] }}</li>
+                {% endfor %}</ul>
+        {% endif %}
+    {% endwith %}
+
+    <p>Search recorded conflicts in Conflict history between RPKI ROAs
+    and announced routes in DFZ [Default Free Zone] BGP table
+        in time period from <b>{{ date_from }}</b> to <b>{{ date_to }}</b>.</p>
+
+    <p>Enter ASN to search all conflicts caused by that AS. Enter prefix to search all conflicts concerning that prefix. For exact match enter both criteria.</p>
+
+    <form action="{{ url_for("search") }}" method="get">
+        {#        {{ form.csrf_token }}#}
+        <div class="row">
+            {{ form.asn.label(class="col-md-1") }}
+            {{ form.asn(placeholder="1234 (default *)", class="col-md-6") }}
+        </div>
+        <div class="row">
+            {{ form.cidr.label(class="col-md-1") }}
+            {{ form.cidr(placeholder="1.1.1.1/32 (default *)", class="col-md-6") }}
+        </div>
+        <div class="row">
+        {{ form.cc.label(class="col-md-1") }}
+        {{ form.cc(data_placeholder="Choose a country...", class="col-md-6") }}
+        </div>
+        <div class="row">
+        {{ form.cc_not.label(class="col-md-1") }}
+        {{ form.cc_not(data_placeholder="Ignore a country...", class="col-md-6") }}
+{#            <select multiple data-placeholder="Choose a country..." name="cc" class="col-md-6">#}
+{#                {% for cc in country_codes %}#}
+{#                    <option value="{{ cc }}">{{ cc.upper() }}</option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+        </div>
+        <div class="row">
+            <input type="submit" class="fa-input" value="&#XF002;">
+            {#            #}
+        </div>
+    </form>
+
+    {% if data %}
+        <h2>Currently found</h2>
+        {% if request.args.get('asn') or request.args.get('cidr') %}
+            <div class="row">
+                    <div class="col text-right">
+                        <a id="notify-me" href="#">notify me</a>
+                        <a id="go-to-notifications" href="{{ url_for('notifications') }}">>> configure >></a>
+                        <i class="fas fa-bell"></i>
+                    </div>
+                </div>
+            {% endif %}
+        {% include 'snippet/conflict_view.html' %}
+    {% elif data is not none %}
+        No conflicts matching given criteria found.
+    {% endif %}
+
+
+
+
+    <script>
+        $("select[name=cc], select[name=cc_not]").chosen();
+        $("#notification-count").data.count = 0;
+        $("#notify-me").click(function () {
+            $.ajax({
+                context: this,
+                type: 'get',
+                url: "add?cidr={{ form.cidr.data }}&asn={{ form.asn.data }}",
+                success: function (data) {
+                    if (data.success) {
+                        let c = ++$("#notification-count").data.count;
+                        $("#notification-count").html(` (${c})`);
+
+                        $(this).hide();
+                        $("#go-to-notifications").show();
+                    } else {
+                        alert(data.message || "Error");
+                    }
+                },
+                error: function(data){
+                    console.error('cannot save to server', data);
+                    alert("Error, cannot save to server.");
+                }
+
+            });
+        })
+    </script>
+{% endblock %}

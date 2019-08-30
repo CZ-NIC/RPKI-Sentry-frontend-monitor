@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"
+            integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+          integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous"/>
+
+    <h2>Currently open</h2>
+
+    <canvas id="open_chart" width="400"></canvas>
+    <script>
+    new Chart($('#open_chart')[0].getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: {{o_lab|list|safe}},
+            datasets: [{
+                label: 'Conflict',
+                data: {{ o_1|list | safe }},
+            }],
+
+        },
+        options: {}
+    });
+    </script>
+
+    <h2>History chart</h2>
+
+    <canvas id="history_chart" width="400" height="400"></canvas>
+    <script>
+        new Chart($('#history_chart')[0].getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {{ h_lab|list|safe }},
+                datasets: [{
+                    label: '{{ 16 | status }}',
+                    data: {{ h_1|list | safe }},
+                    backgroundColor: "green",
+                    borderColor: "lime",
+                    fill: false
+                }, {
+                    label: '{{ 17 | status }}',
+                    data: {{ h_2| list | safe }},
+                    backgroundColor: "blue",
+                    borderColor: "blue",
+                    fill: false
+                    {#borderWidth: 1#}
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            //beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

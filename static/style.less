@@ -1,0 +1,1149 @@
+// search icon in submit input
+.fa-input {
+  font-family: FontAwesome;
+}
+
+// by default, tis link in search is hidden
+#go-to-notifications {
+  display: none;
+}
+
+// templates are not visible
+.html-template {
+  display: none;
+}
+
+#footer {
+  #copyright img {
+    width: 400px;
+    float:right;
+  }
+}
+
+// flag-anchors in the search are not underlined
+td > a.flag {
+  text-decoration: none;
+}
+
+table.conflicts tr.running {
+  background-color: #dbb;
+}
+
+/*
+* Projects bar for nic.cz websites
+*
+* Style contents
+* ==========================================================================================
+*
+* RESET
+* GENERAL
+* KEYFRAMES
+
+/* restet */
+
+#tb-projects-bar div,
+#tb-projects-bar span,
+#tb-projects-bar a,
+#tb-projects-bar img,
+#tb-projects-bar table,
+#tb-projects-bar tbody,
+#tb-projects-bar tr,
+#tb-projects-bar th,
+#tb-projects-bar td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-weight: normal;
+  font-size: 100%;
+  vertical-align: baseline;
+  text-align: left;
+  background-color: transparent;
+  color: #555;
+
+  // notification count in header is bold
+  #notification-count {
+    font-weight: bold;
+  }
+
+}
+
+#tb-projects-bar table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* projects bar widget */
+
+div#tb-projects-bar {
+  background: #fff;
+  border-bottom: 1px solid #d5d5d5;
+  white-space: nowrap;
+  min-width: 900px;
+  height: auto;
+  max-height: 36px;
+  position: relative;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 15px;
+  display: flex; /* also done dynamically */
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+}
+
+div#tb-projects-bar a {
+  text-decoration: underline;
+}
+
+div#tb-projects-bar table tr td a {
+  margin: 3px 10px 2px;
+  display: block;
+}
+
+div#tb-projects-bar a:focus {
+  outline: 1px dotted #003893;
+}
+
+div#tb-projects-bar a:hover {
+  color: #0f78b3;
+  text-shadow: rgba(255, 255, 255, 0.4) 1px 1px;
+  text-decoration: none;
+}
+
+div#tb-projects-bar table {
+  margin: 8px 2px 0;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0);
+  position: relative;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 0;
+  margin-left: -50%;
+}
+
+div#tb-projects-bar table tr td {
+  border-right: 1px solid #d5d5d5;
+  line-height: 15px;
+}
+
+div#tb-projects-bar table tr td:last-child {
+  border-right: 0;
+}
+
+div#tb-projects-bar .tb-logo-wrapper a img {
+  width: 100%;
+  height: auto;
+}
+
+div#tb-projects-bar .tb-logo-wrapper a {
+  width: 84px;
+  height: auto;
+  text-align: right;
+  border: 0;
+  position: absolute;
+  margin: 8px 10px 0 31px;
+}
+
+div#tb-projects-bar .tb-control-panel-wrapper a {
+  display: inline-block;
+  cursor: pointer;
+  text-align: right;
+  margin-top: 10px;
+  vertical-align: top;
+  text-decoration: underline;
+  position: relative;
+}
+
+div#tb-projects-bar .tb-control-panel-wrapper a::before {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 9px;
+  background: transparent url("../../img/widgets/projects-bar-arrows.59f92da176a3.png") no-repeat;
+  bottom: 3px;
+  left: -9px;
+  background-position: -12px 0;
+}
+
+div#tb-projects-bar .tb-control-panel-wrapper a:hover::before {
+  background-position: -18px 0;
+}
+
+div#tb-projects-bar.tb-opening .tb-control-panel-wrapper a::before {
+  background-position: 0 0;
+}
+
+div#tb-projects-bar.tb-opening .tb-control-panel-wrapper a:hover::before {
+  background-position: -6px 0;
+}
+
+div#tb-projects-bar .tb-control-panel-wrapper a:hover {
+  color: #0f78b3;
+  text-shadow: rgba(255, 255, 255, 0.4) 1px 1px;
+  text-decoration: none;
+}
+
+div#tb-projects-bar .tb-logo-wrapper {
+  width: 160px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+}
+
+div#tb-projects-bar .tb-table-wrapper {
+  margin: 8px auto 7px;
+  position: sticky;
+}
+
+div#tb-projects-bar .tb-table-wrapper table {
+  display: table;
+  margin: 0;
+}
+
+div#tb-projects-bar .tb-table-wrapper table tr {
+  display: none;
+}
+
+div#tb-projects-bar .tb-table-wrapper table tr:nth-child(1),
+div#tb-projects-bar.tb-opening .tb-table-wrapper table tr {
+  display: table-row;
+}
+
+div#tb-projects-bar .tb-table-wrapper table tr td {
+  display: table-cell;
+}
+
+div#tb-projects-bar.tb-opening .tb-logo-wrapper a {
+  width: 112px;
+  height: auto;
+  margin-top: 24px;
+  animation: tb-imgEnlarge 0.25s linear 0s 1 normal;
+  -moz-animation: tb-imgEnlarge 0.25s linear 0s 1 normal;
+  -webkit-animation: tb-imgEnlarge 0.25s linear 0s 1 normal;
+  transition: all 0.25s linear;
+}
+
+div#tb-projects-bar.tb-closing .tb-logo-wrapper a {
+  width: 84px;
+  height: auto;
+  margin-top: 8px;
+  animation: tb-imgScaleDown 0.25s linear 0s 1 normal;
+  -moz-animation: tb-imgScaleDown 0.25s linear 0s 1 normal;
+  -webkit-animation: tb-imgScaleDown 0.25s linear 0s 1 normal;
+  transition: all 0.25s linear;
+}
+
+div#tb-projects-bar.tb-opening tr.tb-hideable td {
+  animation: tb-fadein 0.3s ease 0.25s 1 normal;
+  -moz-animation: tb-fadein 0.3s ease 0.25s 1 normal;
+  -webkit-animation: tb-fadein 0.3s ease 0.25s 1 normal;
+  animation-fill-mode: backwards;
+  -moz-animation-fill-mode: backwards;
+  -webkit-animation-fill-mode: backwards;
+}
+
+/* keyframes */
+
+@keyframes tb-fadein {
+  from {
+    opacity: 0;
+    border-color: transparent;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes tb-fadein {
+  from {
+    opacity: 0;
+    border-color: transparent;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes tb-fadein {
+  from {
+    opacity: 0;
+    border-color: transparent;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/*
+* Theme Name: nic.cz
+* Description: Šablona vzhledu od Designeo Creative s.r.o.
+* Version: 1.0m
+*
+* Author: Designeo Creative s.r.o.
+* Website: http://www.designeo.cz
+* Email: info@designeo.cz
+* Created by: Petr Smrček
+* Modified by: Alix Guillard, nic.cz
+*
+* Copyright: (c) Designeo Creative s.r.o. 2013
+*
+*
+* Style contents
+* ==========================================================================================
+*
+* A. HTML ELEMENTS AND UNIVERSAL CLASSES
+*A.1 HTML general elements
+*A.2 HTML table elements
+*A.3 HTML form elements
+*A.4 Universal classes
+*
+* B. GENERAL PAGE LAYOUT
+*B.1 Body and wrap
+*B.2 Messages and errors
+*B.3 Header
+*B.4 Navigation
+*B.5 Content + content sliders/illustrators + paginator
+*B.6 Footer
+*
+* C. STYLES FOR SPECIFIC PAGES
+*C.1 Homepage
+*C.2 Page
+*
+* D. PRINT STYLES
+*
+* E. THIRD PARTY STYLES + SPECIFIC PAGES + RESPONSIVE
+*
+* ==========================================================================================
+*/
+
+/*
+* ==========================================================================================
+* A. HTML ELEMENTS AND UNIVERSAL CLASSES
+* ==========================================================================================
+*/
+
+/*
+* A.1 HTML general elements ... Hx,
+A, P, IMG, HR, UL, ACRONYM
+* ------------------------------------------------------------------------------------------
+*/
+
+/* Markdown clases */
+
+@import url("../../css/markdown.3e18ffe9ec4d.css");
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: bold;
+  color: #003893;
+}
+
+h1 {
+  font-size: 150%;
+  margin: 0.6em 0 0.8em;
+  line-height: 1.4em;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: 130%;
+  margin: 0.6em 0 1.3em;
+  line-height: 1.4em;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: 110%;
+  margin: 1.3em 0;
+  line-height: 1.4em;
+  text-transform: uppercase;
+}
+
+h4 {
+  font-size: 100%;
+  margin: 1.3em 0;
+  color: inherit;
+  text-transform: uppercase;
+}
+
+h5 {
+  font-size: 100%;
+  margin: 1em 0 0.5em;
+  color: inherit;
+  text-transform: uppercase;
+}
+
+/*    color: inherit; 003893 b4b4b4 */
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a {
+  text-decoration: none;
+}
+
+a:link {
+  color: inherit;
+  text-decoration: underline;
+  outline: none;
+}
+
+a:visited {
+  color: inherit;
+  text-decoration: underline;
+  outline: none;
+}
+
+a:hover {
+  color: #3db7e4;
+  text-decoration: underline;
+  outline: none;
+}
+
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+a:hover h1,
+a:hover h2,
+a:hover h3,
+a:hover h4,
+a:hover h5 {
+  border-bottom: 1px solid #c20702;
+  cursor: pointer;
+}
+
+#page > h1 { /* fix for non content pages */
+  background: white;
+  margin: 0.6em 0 -7px;
+  padding: 0.6em 0 0.8em;
+}
+
+body#blue h1,
+body#blue h2,
+body#blue h3,
+body#blue h4,
+body#blue h5 {
+  color: #003893;
+}
+
+body#red h1,
+body#red h2,
+body#red h3,
+body#red h4,
+body#red h5 {
+  color: #ce1126;
+}
+
+body#cyan h1,
+body#cyan h2,
+body#cyan h3,
+body#cyan h4,
+body#cyan h5 {
+  color: #3db7e4;
+}
+
+p {
+  margin: 0.5em 0 1.3em;
+}
+
+hr {
+  padding: 0;
+  border: none;
+  border-top: medium double #b4b4b4;
+  width: 80%;
+}
+
+img {
+  border: none;
+}
+
+ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+acronym {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+
+pre {
+  background-color: #f7f9fa;
+  color: #000;
+  font-size: 120%;
+  overflow: auto;
+  padding: 0.5em;
+}
+
+
+/*
+* ==========================================================================================
+* B. GENERAL PAGE LAYOUT
+* ==========================================================================================
+*/
+
+/*
+* B.1 Body and wrap
+* ------------------------------------------------------------------------------------------
+*/
+body#blue,
+body#red,
+body#cyan,
+body#base,
+body#hp,
+body#bodyblank,
+body#bodyblank div#header {
+  color: #555;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 78%;
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+  display: table;
+  background: #f8f8f8 url("https://www.nic.cz/static/www.nic.cz/images/bg.38c5ee5fc0cc.png") repeat-y center top;
+}
+
+body#bodyblank {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+/*
+* B.2 MESSAGES and ERRORS
+* ------------------------------------------------------------------------------------------
+*/
+
+.errorlist li {
+  display: block;
+  padding: 4px 5px 4px 25px;
+  margin: 0 0 3px;
+  border: 1px solid red;
+  color: white;
+  background-color: red;
+}
+
+ul.messagelist li {
+  display: block;
+  padding: 0.4em 1.2em;
+  border-bottom: 1px solid #ddd;
+  background-color: #ccc;
+  font-size: 140%;
+}
+
+/*
+* B.3 Header
+* ------------------------------------------------------------------------------------------
+*/
+#accessibility {
+  float: right;
+  text-align: right;
+}
+
+#spacer {
+  height: 38px;
+}
+
+.error ul.lang li a {
+  padding: 0 11px 0 10px;
+  color: #003893;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.85em;
+}
+
+#accessibility a {
+  color: white;
+  font-size: 0.02em;
+  float: left;
+  margin-left: 5px;
+}
+
+#accessibility a:active,
+#accessibility a:focus {
+  color: #333;
+  font-size: 1em;
+  float: right;
+}
+
+#header {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#logo {
+  float: left;
+  padding: 0;
+  margin: -38px 0 0;
+  line-height: 1em;
+  font-size: 100%;
+  text-transform: none;
+}
+
+#header #logo a {
+  border: 0;
+}
+
+#logo a img {
+  margin: 0 0 -33px;
+}
+
+#language-select,
+#footer-language-select {
+  list-style: none;
+  padding: 14px 20px 0 12px;
+}
+
+#language-select li,
+#footer-language-select li {
+  float: left;
+  padding: 0 11px 0 10px;
+  background: transparent url("https://www.nic.cz/static/www.nic.cz/images/link-delimeter.a4bf88aa90fa.png") no-repeat center right;
+  color: #003893;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.85em;
+}
+
+#header #language-select li a,
+#footer #footer-language-select li a {
+  font-weight: normal;
+  color: #003893;
+}
+
+#language-select li:last-child,
+#footer-language-select li:last-child {
+  padding-right: 10px;
+  background: none;
+}
+
+#footer-language-select {
+  display: none;
+}
+
+#search {
+  margin-top: 9px;
+}
+
+#search input[type="text"] {
+  width: 119px;
+}
+
+#tools {
+  float: right;
+  display: inline-table;
+  margin: 0;
+}
+
+/*
+* B.4 Navigation
+* ------------------------------------------------------------------------------------------
+*/
+
+#menuicon {
+  display: none;
+}
+
+#navigation {
+  font-size: 1em;
+}
+
+#navigation ul,
+#subnavigation ul {
+  margin: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+#subnavigation ul li,
+#navigation .wrap ul li {
+  list-style: none;
+  display: inline-block;
+  margin: 0 0 0 -3px; /* I don"t know why it does this */
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+#navigation .wrap ul li a,
+#subnavigation ul li div {
+  padding: 0 12px;
+  display: block;
+  line-height: 26px;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+#navigation ul li a:hover {
+  text-decoration: underline;
+}
+
+ul#nav0 {
+  float: right;
+}
+
+#navigation ul#nav0 > li > a {
+  width: 136px;
+  font-weight: bold;
+}
+
+/* same colours in home page bottom blocks (hp-big-link) */
+
+/* subnavigation */
+ul#nav1,
+ul#nav2 {
+  clear: both;
+  padding: 0;
+  background: url("https://www.nic.cz/static/www.nic.cz/images/subnavigation-white.86706e73ee89.png") repeat-x bottom left;
+}
+
+body#blue ul#nav1 {
+  background-color: #003893;
+}
+
+body#red ul#nav1 {
+  background-color: #ce1126;
+}
+
+body#cyan ul#nav1 {
+  background-color: #3db7e4;
+}
+
+body#base ul#nav1 {
+  background-color: #555;
+}
+
+div#navigation ul#nav2 {
+  background-color: #a5acaf;
+}
+
+#navigation ul#nav2 > li > a {
+  margin-top: -4px;
+}
+
+#navigation ul#nav1 > li,
+#navigation ul#nav2 > li {
+  padding-bottom: 5px;
+}
+
+#navigation ul#nav1 > li > a,
+#navigation ul#nav2 > li > a {
+  height: 26px;
+  display: block;
+  padding-right: 13px;
+  background: url("https://www.nic.cz/static/www.nic.cz/images/menu-delimeter.a53e4956bd4f.png") no-repeat top right;
+}
+
+#navigation ul#nav1 > li:last-child > a,
+#navigation ul#nav2 > li:last-child > a {
+  padding-right: 12px;
+  background: none;
+}
+
+/*
+* B.5 Content + Content sliders/illustrators
+* ------------------------------------------------------------------------------------------
+*/
+#content {
+  padding: 12px 0 0;
+  clear: both;
+}
+
+/* pagination */
+
+#content #page div.paginator span a {
+  padding: 3px;
+  border: 1px solid #446db0;
+  margin-right: 3px;
+  color: #446db0;
+  display: inline-block;
+  text-decoration: none;
+}
+
+#content #page .paginator span a:hover {
+  border: 1px solid #34a9da;
+  color: #34a9da;
+}
+
+/*
+* B.6 Footer
+* ------------------------------------------------------------------------------------------
+*/
+#footer {
+  height: 65px;
+  padding: 15px 0 45px;
+  margin: 1px 0;
+  color: #446db0;
+  font-size: 0.85em;
+}
+
+#footer-navigation-heading {
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+#footer-navigation {
+  float: left;
+  padding: 0;
+  margin: 0 0 0 -10px;
+  list-style: none;
+}
+
+#footer ul#footer-navigation li {
+  float: left;
+  padding: 0 11px 0 10px;
+  background: transparent url("https://www.nic.cz/static/www.nic.cz/images/link-delimeter.a4bf88aa90fa.png") no-repeat center right;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+#footer-navigation li a {
+  color: #446db0;
+}
+
+#footer #footer-navigation li:last-child {
+  padding-right: 10px;
+  background: none;
+}
+
+#footer-link-up {
+  float: right;
+  text-transform: uppercase;
+  margin-top: 33px;
+}
+
+#footer-deco {
+  background: transparent url("https://www.nic.cz/static/www.nic.cz/images/footer-dots.5582c2e7ec25.png") no-repeat top center;
+  height: 43px;
+  margin-top: 9px;
+}
+
+#paticka {
+  text-align: center;
+  padding: 15px 0 45px;
+}
+
+.cleaner {
+  clear: both;
+}
+
+
+/*
+* ==========================================================================================
+* C. STYLES FOR SPECIFIC PAGES
+* ==========================================================================================
+*/
+
+/*
+* C.1 Homepage
+* ------------------------------------------------------------------------------------------
+*/
+
+#hp-sidebar {
+  width: 292px;
+  margin-right: 12px;
+  float: left;
+  min-height: 554px;
+  background: #ebebeb;
+}
+
+#ipv6_widget {
+  display: none;
+  overflow: hidden;
+}
+
+#hp-sm {
+  text-align: center;
+}
+
+#hp-sm div.sm-icon:hover img {
+  margin-top: -42px;
+}
+
+#page .hp-widget h3 {
+  text-transform: uppercase;
+  font-size: 1em;
+  margin-top: 0;
+  margin-bottom: 1em;
+  line-height: 1em;
+  font-weight: bold;
+}
+
+#hp-news-online {
+  height: 132px;
+  border-bottom: 2px solid white;
+}
+
+#hp-news {
+  border-bottom: 2px solid white;
+}
+
+#content .wrap {
+  margin: 0 auto;
+  padding: 0 1px 0 4px;
+  max-width: 970px;
+}
+
+#content .wrap #page .news-preview .news-heading a,
+#content .wrap #page .news-preview .news-heading a:hover {
+  text-decoration: none;
+  border: 0;
+  text-transform: none;
+}
+
+.news-time {
+  margin: 5px 0 0;
+}
+
+.news-preview {
+  margin-bottom: 0.8em;
+}
+
+.news-preview p {
+  display: inline; /* margin: 0.3em 0 0; */
+}
+
+#hp-main {
+  //float: right;
+  //width: 640px;
+  margin: 0;
+  padding: 0 0 2px;
+  background: white;
+  min-width: 300px;
+}
+
+#hp-promo {
+  width: 640px;
+  height: 190px;
+  overflow: hidden;
+}
+
+#hp-promo p {
+  margin: 0;
+  padding: 0;
+}
+
+#hp-promo .markdown-text h1,
+#hp-promo .markdown-text h2,
+#hp-promo .markdown-text h3,
+#hp-promo .markdown-text h4 {
+  clear: none;
+}
+
+#hp-main-left {
+  margin: 12px 12px 12px 0;
+  width: 290px;
+  min-height: 208px;
+  float: left;
+  background-color: #ebebeb;
+}
+
+#hp-main-left input[type="text"] {
+  width: 250px;
+  margin: 17px 0 23px;
+}
+
+#hp-main-left form input.search-button {
+  left: 264px;
+  top: 44px;
+}
+
+#hp-main-right {
+  margin: 12px 0;
+  min-height: 232px;
+  width: 314px;
+  float: left;
+}
+
+#hp-main #hp-main-right .hp-widget h3 {
+  color: white;
+}
+
+#hp-statistics {
+  min-height: 62px;
+}
+
+#hp-connection {
+  min-height: 144px;
+  background-color: #003893;
+}
+
+div#hp-big-link {
+  width: 653px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* home page bottom blocks (same as in #nav0) */
+#hp-big-link a.nav-registrators {
+  background-color: #ce1126;
+}
+
+#hp-big-link a.nav-aboutus {
+  background-color: #3db7e4;
+}
+
+#hp-big-link a#mibew-agent-button img {
+  margin: 0 0 0 -25px;
+  position: absolute;
+}
+
+#page div#hp-main #hp-big-link a {
+  display: block;
+  float: left;
+  width: 107px;
+  height: 58px;
+  margin-right: 12px;
+  background-image: url("https://www.nic.cz/static/www.nic.cz/images/arrow.c56d4d01570f.png");
+  background-repeat: no-repeat;
+  background-position: 13px 12px;
+  padding: 50px 32px 0 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border: 0;
+}
+
+#page div#hp-main #hp-big-link a:hover {
+  background-position: 22px 12px;
+  text-decoration: underline;
+}
+
+#page div#hp-main #hp-big-link a:last-child {
+  margin-right: 0;
+}
+
+/* mibew (onlinechat) */
+
+#hp-big-link img.mibewimg,
+#hp-big-link img.tempimg {
+  margin: 50px 0 0 -155px;
+  position: absolute;
+}
+
+#hp-main #hp-big-link a.nav-myid,
+#page #hp-main #hp-big-link a#mibew-agent-button {
+  padding: 50px 12px 0 32px;
+}
+
+/* newsletter */
+#hp-newsletter {
+  max-height: 119px;
+  overflow: hidden;
+}
+
+/*
+* C.2 Page
+* ------------------------------------------------------------------------------------------
+*/
+
+#page {
+  background: white;
+}
+
+#page.withrelated {
+  background: transparent url("https://www.nic.cz/static/www.nic.cz/images/page-bg.d15a75ebded7.png") repeat-y right 0 top;
+}
+
+body#hp #page {
+  background: white;
+}
+
+#content-main,
+#whois {
+  background: white;
+  min-height: 300px;
+  float: left;
+  width: 100%;
+}
+
+#content-main.withrelated {
+  max-width: 640px;
+  float: left;
+}
+
+#page-sidebar {
+  float: right;
+  width: 290px;
+  background-color: #eaeaea;
+}
+
+.page-sidebar-content {
+  padding: 0 12px;
+  line-height: 1.6em;
+}
+
+#page #page-sidebar .page-sidebar-content img,
+.page-sidebar-content object {
+  margin: 0 -12px;
+  max-width: 290px;
+  height: auto;
+}
+
+.page-sidebar-content object embed {
+  width: 290px;
+}
+
+#page-sidebar .page-sidebar-content p {
+  margin: 0 0 1.7em;
+}
+
+#page #page-sidebar .page-sidebar-content h3 {
+  margin-top: 0.4em;
+  font-size: 120%;
+}
+
+#page-sidebar ul {
+  list-style-image: url("https://www.nic.cz/static/www.nic.cz/images/list-style.05cbda939526.png");
+  padding-left: 30px;
+  margin-bottom: 20px;
+}
+
+/*
+    Webwhois
+*/
+#content .highlight-handles span {
+  font-style: italic;
+}
+
+#blank {
+  min-height: 300px;
+}
+
+/*
+* ==========================================================================================
+* D. PRINT STYLES
+* ==========================================================================================
+*
+* see also print.css
+*/
+
+/*
+* ==========================================================================================
+* D. THIRD PARTY STYLE + SPECIFIC PAGES
+* ==========================================================================================
+*
+* see specific.css
+*/
+
+/*
+* ==========================================================================================
+* E. FOURTH PART = RESPONSIVE STYLES
+* ==========================================================================================
+*
+* see responsive.css
+*/

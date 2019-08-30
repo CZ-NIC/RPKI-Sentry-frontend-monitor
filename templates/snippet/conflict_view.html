@@ -1,0 +1,33 @@
+{# needs data variable #}
+
+{% if pagination %}
+    {{ pagination.links }}
+{% endif %}
+
+<table class="table conflicts">
+    <thead class="thead-dark">
+    <tr>
+        <th>CIDR</th>
+        <th>ASN</th>
+        <th>Error root cause</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Country</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for r in data %}
+        <tr class="{{ "running" if not r.Conflict.end}}">
+            <td><a href="{{ url_for('search') }}?cidr={{ r.PrefixAsn.prefix }}">{{ r.PrefixAsn.prefix }}</a></td>
+            <td><a href="{{ url_for('search') }}?asn={{ r.PrefixAsn.asn }}">{{ r.PrefixAsn.asn }}</td>
+            <td>{{ r.Conflict.status | status }}</td>
+            <td>{{ r.Conflict.start }}</td>
+            <td>{{ r.Conflict.end or "-"}}</td>
+            <td>{% if r.PrefixAsn.cc %} <a class="flag" href="{{ url_for('search') }}?cc={{ r.PrefixAsn.cc }}"><img src="{{ url_for('static', filename="flag/{}.gif".format(r.PrefixAsn.cc)) }}" alt="{{ r.PrefixAsn.cc }}"/> {{ r.PrefixAsn.cc.upper() }}</a>{% else %}-{% endif %}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% if pagination %}
+    {{ pagination.links }}
+{% endif %}
