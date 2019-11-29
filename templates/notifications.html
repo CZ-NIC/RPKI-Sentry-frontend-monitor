@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
-{% macro row(id, prefix,asn) %}
+{% macro row(id, prefix,asn, ccs) %}
     <tr>
         <input type="hidden" name="id[]" value="{{ id }}"/>
         <td><input name="prefix[]" value="{{ prefix }}"/></td>
         <td><input name="asn[]" value="{{ asn }}"/></td>
-        <td><a class="search" href="{{ url_for('search') }}?cidr={{ prefix }}&asn={{ asn }}"><i class="fas fa-search"></i></a></td>
+        <td><input name="ccs[]" value="{{ ccs }}"/></td>
+        <td><a class="search" href="{{ url_for('search') }}?cidr={{ prefix }}&asn={{ asn }}&cc={{ ccs|split(",")|join("&cc=")|safe }}"><i class="fas fa-search"></i></a></td>
         <td><a href="#" class="delete-row"><i class="fas fa-trash"></i></a></td>
     </tr>
 {% endmacro %}
@@ -22,13 +23,14 @@
             <tr>
                 <th>CIDR</th>
                 <th>ASN</th>
+                <th>Countries</th>
                 <th>Search</th>
                 <th>Delete</th>
             </tr>
             </thead>
             <tbody>
             {% for r in data %}
-                {{ row(r.id,r.prefix or "",r.asn or "") }}
+                {{ row(r.id,r.prefix or "",r.asn or "", r.ccs or "") }}
             {% endfor %}
             <tr>
                 <td colspan="4"><a href="#" class="add-row"><i class="fas fa-plus"></i></a></td>

@@ -120,6 +120,7 @@ class Notification(db.Model):
     user_id = db.Column('user_id', ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'))
     prefix = db.Column('prefix', CIDR, nullable=True)
     asn = db.Column('asn', BigInteger, nullable=True)
+    ccs = db.Column('ccs', Text, nullable=True)
     enabled = db.Column('enabled', Boolean, nullable=False, server_default='0')
 
 
@@ -129,6 +130,8 @@ class MailHistory(db.Model):
     __tablename__ = 'mail_history'
     user_id = db.Column('user_id', ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True)
     timestamp = db.Column('timestamp', TIMESTAMP)
+
+
 
 
 class Conflict(db.Model):

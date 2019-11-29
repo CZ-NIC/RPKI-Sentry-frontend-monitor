@@ -54,7 +54,7 @@
 
     {% if data %}
         <h2>Currently found</h2>
-        {% if request.args.get('asn') or request.args.get('cidr') %}
+        {% if request.args.get('asn') or request.args.get('cidr') or request.args.get('cc') %}
             <div class="row">
                     <div class="col text-right">
                         <a id="notify-me" href="#">notify me</a>
@@ -75,10 +75,11 @@
         $("select[name=cc], select[name=cc_not]").chosen();
         $("#notification-count").data.count = 0;
         $("#notify-me").click(function () {
+
             $.ajax({
                 context: this,
                 type: 'get',
-                url: "add?cidr={{ form.cidr.data }}&asn={{ form.asn.data }}",
+                url: "add?cidr={{ form.cidr.data }}&asn={{ form.asn.data }}&ccs={{ form.cc.data|join("&ccs=")|safe }}",
                 success: function (data) {
                     if (data.success) {
                         let c = ++$("#notification-count").data.count;
