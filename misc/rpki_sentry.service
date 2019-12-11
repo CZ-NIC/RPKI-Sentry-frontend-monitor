@@ -10,3 +10,5 @@ Restart=on-failure
 RestartSec=10s
 [Install]
 WantedBy=multi-user.target
+
+# certificate realised by Let's Encrypt https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https

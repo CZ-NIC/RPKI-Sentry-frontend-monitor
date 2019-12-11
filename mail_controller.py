@@ -7,7 +7,7 @@
 #     text = """Somebody has just asked to send updates of current configs:
 #             If that was you confirm
 #
-#             You can edit here: XXX
+#             You can edit here: XX
 #
 #             You can ignore if that was you.
 #

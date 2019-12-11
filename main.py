@@ -26,7 +26,7 @@ console_handler.setFormatter(logging.Formatter('%(message)s'))
 console_handler.setLevel(logging.INFO)
 file_handler = logging.FileHandler("rpki_sentry.log")
 file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-file_handler.setLevel(logging.WARNING)
+file_handler.setLevel(logging.INFO)  # XX CHANGE to WARNING
 logging.basicConfig(level=logging.INFO, handlers=[console_handler, file_handler])
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,8 @@ SQLALCHEMY_ECHO = True
 OIDC_CLIENT_SECRETS = '/var/www/html/client_secrets.json'
 OIDC_ID_TOKEN_COOKIE_SECURE = False
 OIDC_REQUIRE_VERIFIED_EMAIL = False
-OIDC_OPENID_REALM = 'https://rpki-sentry.csirt.cz:5002/oidc_callback' # XX why is here port 5002?
+#OIDC_OPENID_REALM = 'https://rpki-sentry.csirt.cz:5002/oidc_callback' # XX why is here port 5002?
+OIDC_OPENID_REALM = 'https://rpki-sentry.csirt.cz/oidc_callback' # XX why is here port 5002?
 
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 
@@ -344,27 +345,25 @@ if __name__ == "__main__":
                     body = "<br>----<br>".join(res)
                     body += f"<br><br>Go to <a href={HOSTNAME}/notifications>notification</a> page to edit notification."
 
-                    success = (envelope()
-                               .sender("rpki-sentry@csirt.cz")
-                               # XXX .to(user.email)
-                               .to("edvard.rejthar+test@nic.cz")
-                               .subject("RPKI Sentry notification")
-                               .smtp("smtp.ini")
-                               .message(body)
-                               .signature()
-                               .send(False))
+                    mail = (envelope()
+                            .sender("rpki-sentry@csirt.cz")
+                            .to(user.email)
+                            #.to("edvard.rejthar+test@nic.cz")
+                            .subject("RPKI Sentry notification")
+                            .smtp("smtp.ini")
+                            .message(body)
+                            .signature()
+                            .send(True))
                     # XX add unsubscribe link
-                    print(success)
-                    if success:
+                    logger.info(str(mail))  # XX maybe remove this logging and add a some statistics year-mail-count+1
+
+                    if mail:
                         # make a note to the DB that we've sent this mail
                         db.session.merge(MailHistory(user_id=user.id, timestamp=now))
                     else:
                         logger.error(f"Mail not sent {user.email}, body: {body}")
 
-        # XXX after testing
-        # db.session.execute("update state SET progress_time = '" + now + "' where id = '1' ")
+        db.session.execute("update state SET progress_time = '" + now + "' where id = '1' ")
         db.session.commit()
     else:
-        # app.run(ssl_context=('/etc/letsencrypt/live/rpki-sentry.csirt.cz/fullchain.pem', '/etc/letsencrypt/live/rpki-sentry.csirt.cz/privkey.pem'))
-        # app.run(ssl_context='adhoc')
         app.run()
