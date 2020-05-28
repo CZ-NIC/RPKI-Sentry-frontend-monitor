@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RPKI Sentry</title>
+    <title>RPKI Chronicle</title>
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="screen"/>
     <link href="{{ url_for('static', filename='css/chosen.css') }}" rel="stylesheet" type="text/css" media="screen"/>
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" media="screen"/>
@@ -55,7 +55,7 @@
                         </a>
                     {% endif %}
                 </div>
-                <h1>RPKI Sentry</h1>
+                <h1>RPKI Chronicle</h1>
             </div>
             {% if report %}
                 <div class="alert alert-{{ report.style }}">{{ report.msg }}</div>

@@ -154,6 +154,6 @@ class PrefixAsn(db.Model):
     cc = db.Column(CHAR, nullable=True)
     conflicts = db.relationship('Conflict', backref=__tablename__, lazy=True)
 
-# engine = create_engine("postgresql+psycopg2://rpki_sentry:fjife76fHFDj8@localhost/rpki_sentry", echo=True)
+# engine = create_engine("postgresql+psycopg2://rpki_chronicle:fjife76fHFDj8@localhost/rpki_chronicle", echo=True)
 # Base.metadata.create_all(engine)
 # import ipdb; ipdb.set_trace()

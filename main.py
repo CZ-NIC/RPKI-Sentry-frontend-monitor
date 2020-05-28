@@ -24,7 +24,7 @@ from models import PrefixAsn, Conflict, Notification, User, db, MailHistory
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(logging.Formatter('%(message)s'))
 console_handler.setLevel(logging.INFO)
-file_handler = logging.FileHandler("rpki_sentry.log")
+file_handler = logging.FileHandler("rpki_chronicle.log")
 file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
 file_handler.setLevel(logging.INFO)  # XX CHANGE to WARNING
 logging.basicConfig(level=logging.INFO, handlers=[console_handler, file_handler])
@@ -33,12 +33,12 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-HOSTNAME = "https://rpki-sentry.csirt.cz/"
+HOSTNAME = "https://rpki-chronicle.csirt.cz/"
 # App config.
 # DEBUG = True
 SESSION_TYPE = 'sqlalchemy'
 SECRET_KEY = '7d441f27d441f27567d441f2b6176a'
-SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://rpki_sentry:ze29dnxE5sCuV39@localhost/rpki_sentry'
+SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://rpki_chronicle:ze29dnxE5sCuV39@localhost/rpki_chronicle'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = True
 
@@ -47,8 +47,8 @@ SQLALCHEMY_ECHO = True
 OIDC_CLIENT_SECRETS = '/var/www/html/client_secrets.json'
 OIDC_ID_TOKEN_COOKIE_SECURE = False
 OIDC_REQUIRE_VERIFIED_EMAIL = False
-#OIDC_OPENID_REALM = 'https://rpki-sentry.csirt.cz:5002/oidc_callback' # XX why is here port 5002?
-OIDC_OPENID_REALM = 'https://rpki-sentry.csirt.cz/oidc_callback' # XX why is here port 5002?
+#OIDC_OPENID_REALM = 'https://rpki-chronicle.csirt.cz:5002/oidc_callback' # XX why is here port 5002?
+OIDC_OPENID_REALM = 'https://rpki-chronicle.csirt.cz/oidc_callback' # XX why is here port 5002?
 
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 
@@ -245,11 +245,11 @@ def status_2_word(s):
     try:
         key = {0: "ROA missing",
                1: "ROA valid",
-               2: "ROA invalid but passing",
+               # 2: "ROA invalid but passing",
                # 16: "prefix/ROA conflict (origin)",
                # 17: "prefix/ROA conflict (prefix length)"}[s]
-               16: "origin",
-               17: "prefix length"}[s]
+               2: "origin",
+               3: "prefix length"}[s]
     except KeyError:
         key = "N/A"
     return key
@@ -346,10 +346,10 @@ if __name__ == "__main__":
                     body += f"<br><br>Go to <a href={HOSTNAME}/notifications>notification</a> page to edit notification."
 
                     mail = (envelope()
-                            .sender("rpki-sentry@csirt.cz")
+                            .sender("rpki-chronicle@csirt.cz")
                             .to(user.email)
                             #.to("edvard.rejthar+test@nic.cz")
-                            .subject("RPKI Sentry notification")
+                            .subject("RPKI Chronicle notification")
                             .smtp("smtp.ini")
                             .message(body)
                             .signature()
@@ -363,6 +363,7 @@ if __name__ == "__main__":
                     else:
                         logger.error(f"Mail not sent {user.email}, body: {body}")
 
+        logger.info("done") # XXX remove this
         db.session.execute("update state SET progress_time = '" + now + "' where id = '1' ")
         db.session.commit()
     else:

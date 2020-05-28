@@ -3,7 +3,7 @@
 #
 #
 # def send_verification(user):
-#     subject = "RPKI Sentry confirmation"
+#     subject = "RPKI Chronicle confirmation"
 #     text = """Somebody has just asked to send updates of current configs:
 #             If that was you confirm
 #

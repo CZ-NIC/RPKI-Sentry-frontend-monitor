@@ -1,9 +1,9 @@
 [Unit]
-Description=uWSGI server instance configured to serve RPKI Sentry
+Description=uWSGI server instance configured to serve RPKI Chronicle
 [Service]
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/www/.local/bin"
 WorkingDirectory=/var/www/html
-ExecStart=/usr/bin/uwsgi -s /tmp/rpki_sentry.sock --manage-script-name --ini /var/www/html/wsgi.ini
+ExecStart=/usr/bin/uwsgi -s /tmp/rpki_chronicle.sock --manage-script-name --ini /var/www/html/wsgi.ini
 User=root
 Group=root
 Restart=on-failure
