@@ -1,5 +1,6 @@
 # coding: utf-8
 import datetime
+import logging
 
 from flask import session
 from flask_sqlalchemy import SQLAlchemy
@@ -9,6 +10,7 @@ from sqlalchemy.dialects.postgresql.base import CIDR
 from sqlalchemy.schema import FetchedValue
 
 db = SQLAlchemy()
+logger = logging.getLogger(__name__)
 
 metadata = MetaData()
 
@@ -102,9 +104,12 @@ class User(db.Model):
             user.email = email
             print("*"*100)
             print("************ No e-mail got from MojeID!")  # I couldn't debug why this happens on production server
+            logger.error("************ No e-mail got from MojeID!")
+            logger.error(user.id)
             # import ipdb; ipdb.set_trace()
             if not user.email:
                 print("!!!!!!!!!!!! No user e-mail at all :(")
+                logger.error("!!!!!!!!!!!! No user e-mail at all :(")
         db.session.commit()
 
     def get_notifications(self):
@@ -130,6 +135,7 @@ class MailHistory(db.Model):
     __tablename__ = 'mail_history'
     user_id = db.Column('user_id', ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True)
     timestamp = db.Column('timestamp', TIMESTAMP)
+    conflict_count = db.Column('conflict_count', Integer)
 
 
 

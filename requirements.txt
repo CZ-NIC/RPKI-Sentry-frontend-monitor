@@ -9,4 +9,4 @@ Flask-SQLAlchemy
 flask_session
 redis
 flask-debugtoolbar
-envelope
+envelope>=1

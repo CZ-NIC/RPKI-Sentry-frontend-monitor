@@ -5,9 +5,10 @@ import smtplib
 import sys
 from collections import defaultdict
 from itertools import zip_longest
+from pathlib import Path
 
 import requests
-from envelope import envelope
+from envelope import Envelope
 from flask import Flask, render_template, request, jsonify, redirect, url_for, send_from_directory, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_oidc import OpenIDConnect
@@ -30,7 +31,6 @@ file_handler.setLevel(logging.INFO)  # XX CHANGE to WARNING
 logging.basicConfig(level=logging.INFO, handlers=[console_handler, file_handler])
 logger = logging.getLogger(__name__)
 
-
 app = Flask(__name__)
 
 HOSTNAME = "https://rpki-chronicle.csirt.cz/"
@@ -47,8 +47,8 @@ SQLALCHEMY_ECHO = True
 OIDC_CLIENT_SECRETS = '/var/www/html/client_secrets.json'
 OIDC_ID_TOKEN_COOKIE_SECURE = False
 OIDC_REQUIRE_VERIFIED_EMAIL = False
-#OIDC_OPENID_REALM = 'https://rpki-chronicle.csirt.cz:5002/oidc_callback' # XX why is here port 5002?
-OIDC_OPENID_REALM = 'https://rpki-chronicle.csirt.cz/oidc_callback' # XX why is here port 5002?
+# OIDC_OPENID_REALM = 'https://rpki-chronicle.csirt.cz:5002/oidc_callback' # XX why is here port 5002?
+OIDC_OPENID_REALM = 'https://rpki-chronicle.csirt.cz/oidc_callback'  # XX why is here port 5002?
 
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 
@@ -227,7 +227,8 @@ def search(page=1):
     date_from = db.engine.execute("select min(ts) from seen_tables").fetchone()[0]
     date_to = db.engine.execute("select max(ts) from seen_tables").fetchone()[0]
     form.cc_not.choices = form.cc.choices = [(x[0], x[0].upper()) for x in
-                                             db.engine.execute("select cc from prefix_asn where cc is not null group by cc")]
+                                             db.engine.execute(
+                                                 "select cc from prefix_asn where cc is not null group by cc")]
 
     return render_template('search.html', form=form, data=data, date_from=date_from, date_to=date_to,
                            pagination=pagination)
@@ -277,7 +278,8 @@ if __name__ == "__main__":
         if not no_countries:
             CONVEY_URL = "http://127.0.0.1:26683/?q={}&field=country"
 
-            # not having country code set, start with new ID (don't get stuck with an erroneous whois-records from last time)
+            # not having country code set, start with new ID
+            # (don't get stuck with an erroneous whois-records from last time)
             # XX what if an IP change its country after few months?
             q = db.session.query(PrefixAsn) \
                 .filter(PrefixAsn.cc == None) \
@@ -320,16 +322,20 @@ if __name__ == "__main__":
                  .filter(or_(*conditions))  # conflict must be new or country-updated
                  )
         for row in query.all():
-            conflicts[row.User.id].append((row.Notification, row.PrefixAsn, row.Conflict, row.User))
+            conflicts[row.User].append((row.Notification, row.PrefixAsn, row.Conflict))
 
         # send e-mails
         smtp_server = "localhost"
         if conflicts:  # notify user
             with smtplib.SMTP(smtp_server) as smtp:
-                for items in conflicts.values():
+                for user, user_conflicts in conflicts.items():
                     # notify(user_id, conflicts)
+
+                    if not user.email:
+                        logger.warning(f"No mail for {user.id}, skipping!")
+
                     res = []
-                    for notification, prefix_asn, conflict, user in items:
+                    for notification, prefix_asn, conflict in user_conflicts:
                         l = []
                         if notification.asn:
                             l.append(f"Watched ASN: {notification.asn}<br>")
@@ -342,28 +348,33 @@ if __name__ == "__main__":
                                  f"Conflict end: {conflict.end}<br>")
                         res.append("".join(l))
 
-                    body = "<br>----<br>".join(res)
-                    body += f"<br><br>Go to <a href={HOSTNAME}/notifications>notification</a> page to edit notification."
+                    body = "You have ordered notification concerning RPKI.\n" + "\n<br>----<br>".join(res)
+                    body += f"<br><br>Go to <a href={HOSTNAME}notifications>notification</a> page to edit notification."
 
-                    mail = (envelope()
+                    mail = (Envelope()
                             .sender("rpki-chronicle@csirt.cz")
                             .to(user.email)
-                            #.to("edvard.rejthar+test@nic.cz")
                             .subject("RPKI Chronicle notification")
                             .smtp("smtp.ini")
                             .message(body)
-                            .signature()
-                            .send(True))
+                            .send(True)
+                            )
                     # XX add unsubscribe link
-                    logger.info(str(mail))  # XX maybe remove this logging and add a some statistics year-mail-count+1
+
+                    # log the whole contents of the e-mail
+                    with Path("/tmp/rpki-chronicle-mails.log").open("a") as f:
+                        f.write(str(mail))
 
                     if mail:
                         # make a note to the DB that we've sent this mail
-                        db.session.merge(MailHistory(user_id=user.id, timestamp=now))
+                        db.session.merge(
+                            MailHistory(user_id=user.id, timestamp=now, conflict_count=len(user_conflicts))
+                        )
+                        logger.info(f"Mail sent to {user.email}")
+                        pass
                     else:
                         logger.error(f"Mail not sent {user.email}, body: {body}")
 
-        logger.info("done") # XXX remove this
         db.session.execute("update state SET progress_time = '" + now + "' where id = '1' ")
         db.session.commit()
     else:
