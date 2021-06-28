@@ -225,7 +225,7 @@ def search(page=1):
         data = query.items  # .all()
 
     date_from = db.engine.execute("select min(ts) from seen_tables").fetchone()[0]
-    date_to = db.engine.execute("select max(ts) from seen_tables").fetchone()[0]
+    date_to = db.engine.execute("select max(ts) from stats").fetchone()[0]  # Xfrom seen_tables, XX replace seen_tables by stats everywhere?
     form.cc_not.choices = form.cc.choices = [(x[0], x[0].upper()) for x in
                                              db.engine.execute(
                                                  "select cc from prefix_asn where cc is not null group by cc")]
@@ -296,12 +296,13 @@ if __name__ == "__main__":
                         print("Wrong cc length:", prefix_asn_.prefix, cc)
                 print(url, prefix_asn_.cc)
                 if i % 10 == 9:
-                    print("Comitting")
+                    print("Comitting now")
                     db.session.commit()
             db.session.commit()
 
         # build the query that checks if there exists a new conflicts we should be told about
         conflicts = defaultdict(list)  # [email] => [conflicts...]
+        print("Starting conflicts")
 
         # condition
         conditions = [Conflict.end > last_check, Conflict.start > last_check]  # must be new
@@ -375,7 +376,9 @@ if __name__ == "__main__":
                     else:
                         logger.error(f"Mail not sent {user.email}, body: {body}")
 
+        print("Updating progress")
         db.session.execute("update state SET progress_time = '" + now + "' where id = '1' ")
         db.session.commit()
+        print("Done")
     else:
         app.run()

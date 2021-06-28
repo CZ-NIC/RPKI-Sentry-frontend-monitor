@@ -1,12 +1,5 @@
 {% extends "layout.html" %}
-{% block content %}
-
-    <div class="alert alert-warning">
-        This is an <b>early prototype</b> of the RPKI Chronicle software. We publish the it as it is, along with the current data and
-        results without any guarantees of data quality, accuracy or completeness. Our intention is to speed up development,
-        debugging and allow community to participate and provide early feedback. You may use the software, data, results or any
-        other artifacts solely at your own risk.
-    </div>
+{% block content %}    
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -67,8 +60,7 @@
     {% elif data is not none %}
         No conflicts matching given criteria found.
     {% endif %}
-
-
+    
 
 
     <script>
@@ -99,4 +91,10 @@
             });
         })
     </script>
+    
+    <div class="alert">
+        We publish the software as it is, along with the current data and results without any guarantees of data quality,
+        accuracy or completeness. You may use the software, data, results or any
+        other artifacts solely at your own risk.
+    </div>
 {% endblock %}

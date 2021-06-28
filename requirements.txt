@@ -10,3 +10,5 @@ flask_session
 redis
 flask-debugtoolbar
 envelope>=1
+flask_oidc
+flask_wtf
